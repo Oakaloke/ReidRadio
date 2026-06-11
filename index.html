@@ -12,48 +12,39 @@
             margin: 0;
             padding: 0;
             text-align: center;
-            line-height: 1.6;
         }
         header {
             background: linear-gradient(135deg, #1e40af, #3b82f6);
-            padding: 4rem 1rem 3rem;
+            padding: 3rem 1rem;
             color: white;
         }
         h1 {
             font-size: 3.5rem;
-            margin: 0 0 10px 0;
+            margin: 10px 0;
         }
         .tagline {
             font-size: 1.4rem;
             opacity: 0.9;
+        }
+        .logo-video {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 8px solid #60a5fa;
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .content {
             max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
-        video {
+        video.main {
             width: 100%;
             max-width: 800px;
             border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             margin: 30px 0;
-        }
-        img.logo {
-            width: 200px;
-            border-radius: 50%;
-            border: 6px solid #60a5fa;
-            margin: 20px 0 30px;
-        }
-        button {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            margin: 15px;
         }
     </style>
 </head>
@@ -61,13 +52,16 @@
     <header>
         <h1>Reid Radio</h1>
         <p class="tagline">Faith • Family • Community</p>
+
+        <!-- Your rotating logo video -->
+        <video class="logo-video" autoplay loop muted playsinline>
+            <source src="logo.mp4" type="video/mp4">
+        </video>
     </header>
 
     <div class="content">
-        <img src="logo.png" alt="Reid Radio Logo" class="logo">
-
         <h2>Latest Video</h2>
-        <video controls autoplay muted loop>
+        <video class="main" controls>
             <source src="intro-video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
