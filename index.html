@@ -5,68 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reid Radio</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
+        * {
+            box-sizing: border-box;
+        }
+        html, body {
             margin: 0;
             padding: 0;
-            text-align: center;
+            height: 100%;
         }
-        header {
-            background: linear-gradient(135deg, #1e40af, #3b82f6);
-            padding: 3rem 1rem;
-            color: white;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            overflow: hidden;
         }
-        h1 {
-            font-size: 3.5rem;
-            margin: 10px 0;
-        }
-        .tagline {
-            font-size: 1.4rem;
-            opacity: 0.9;
-        }
-        .logo-video {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            border: 8px solid #60a5fa;
-            margin: 20px auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .content {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        video.main {
+
+        /* Full-screen background video */
+        .bg-video {
+            position: fixed;
+            inset: 0;
             width: 100%;
-            max-width: 800px;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            margin: 30px 0;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Light gradient overlay between video and nav for readability */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(
+                to bottom,
+                rgba(15, 23, 42, 0.65) 0%,
+                rgba(15, 23, 42, 0.25) 22%,
+                rgba(15, 23, 42, 0) 50%
+            );
+            pointer-events: none;
+        }
+
+        /* Fixed top title bar — klove.com style */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.9rem 1.75rem;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(96, 165, 250, 0.35);
+        }
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #f8fafc;
+            text-decoration: none;
+        }
+        .brand span {
+            color: #60a5fa;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.75rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        .hamburger span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 700px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: min(70vw, 260px);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding: 5rem 1.75rem;
+                background: rgba(15, 23, 42, 0.92);
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+                border-left: 1px solid rgba(96, 165, 250, 0.35);
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            }
+            .nav-links.open {
+                transform: translateX(0);
+            }
+            .nav-links a {
+                font-size: 1.25rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Reid Radio</h1>
-        <p class="tagline">Faith • Family • Community</p>
+    <!-- Full-screen background video -->
+    <video class="bg-video" autoplay loop muted playsinline>
+        <source src="intro-video.mp4" type="video/mp4">
+    </video>
 
-        <!-- Your rotating logo video -->
-        <video class="logo-video" autoplay loop muted playsinline>
-            <source src="logo.mp4" type="video/mp4">
-        </video>
-    </header>
+    <!-- Gradient overlay for nav readability -->
+    <div class="overlay"></div>
 
-    <div class="content">
-        <h2>Latest Video</h2>
-        <video class="main" controls>
-            <source src="intro-video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <!-- Fixed top title bar -->
+    <nav class="navbar">
+        <a class="brand" href="#home">Reid<span>Radio</span></a>
 
-        <p>More shows and episodes coming soon...</p>
-    </div>
+        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMenu(this)">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#shows">Shows</a></li>
+            <li><a href="#music">Music</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        function toggleMenu(btn) {
+            var links = document.getElementById('navLinks');
+            var open = links.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open);
+        }
+        // Close the menu when a link is tapped (mobile)
+        document.querySelectorAll('#navLinks a').forEach(function (a) {
+            a.addEventListener('click', function () {
+                var links = document.getElementById('navLinks');
+                links.classList.remove('open');
+                document.querySelector('.hamburger').setAttribute('aria-expanded', 'false');
+            });
+        });
+    </script>
 </body>
 </html>
